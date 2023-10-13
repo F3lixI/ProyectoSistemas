@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login
 
 # Create your views here.
@@ -18,6 +18,16 @@ def registrar(request):
     return render(request, 'registro.html', {'form': form})
 
 def iniciar_sesion(request):
-    if request.method == "POST":
-        
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            # Iniciar sesión
+            user = form.get_user()
+            login(request, user)
+            # Redirigir a la página deseada después del inicio de sesión
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'login.html', {'form': form})
     
