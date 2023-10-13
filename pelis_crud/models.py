@@ -10,9 +10,8 @@ class Usuario(models.Model):
 from django.db import models
 
 class Pelicula(models.Model):
+    id = models.IntegerField(primary_key=True)
     titulo = models.CharField(max_length=200)
-    año_lanzamiento = models.PositiveIntegerField()
-    genero = models.CharField(max_length=100)
     director = models.CharField(max_length=100)
 
     def __str__(self):

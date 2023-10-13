@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login
+from django.db.models import Q
+from .models import Pelicula
 
 # Create your views here.
 def home(request):
@@ -30,4 +32,18 @@ def iniciar_sesion(request):
         form = AuthenticationForm()
 
     return render(request, 'login.html', {'form': form})
+
+def buscar_pelicula(request):
+    query = request.GET.get("q")
+    
+    pelicula = Pelicula.objects.all()
+    
+    if query:
+        pelicula=Pelicula.objects.filter(
+            Q(director__icontains=query)|
+            Q(titulo__icontains=query)
+        ).distinct()
+        
+    
+    return render(request, 'search.html', {'pelicula': pelicula})
     
