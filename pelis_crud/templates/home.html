@@ -1,1 +1,19 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+    <!-- Muestra las peliculas de la base de datos -->
+    <h1>Películas</h1>
+    <ul>
+        {% for pelicula in peliculas %}
+            <li>
+                <strong>Título:</strong> {{ pelicula.titulo }}<br>
+                <strong>Director:</strong> {{ pelicula.director }}<br>
+            </li>
+        {% endfor %}
+</body>
+</html>

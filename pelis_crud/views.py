@@ -6,7 +6,8 @@ from .models import Pelicula
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    peliculas = Pelicula.objects.all()
+    return render(request, 'home.html', {'peliculas': peliculas})
 
 def registrar(request):
     if request.method == 'POST':
@@ -36,14 +37,14 @@ def iniciar_sesion(request):
 def buscar_pelicula(request):
     query = request.GET.get("q")
     
-    pelicula = Pelicula.objects.all()
+    peliculas = []
     
     if query:
-        pelicula=Pelicula.objects.filter(
+        peliculas=Pelicula.objects.filter(
             Q(director__icontains=query)|
             Q(titulo__icontains=query)
         ).distinct()
         
     
-    return render(request, 'search.html', {'pelicula': pelicula})
+    return render(request, 'search.html', {'peliculas': peliculas})
     
