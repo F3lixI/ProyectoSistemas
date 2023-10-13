@@ -23,5 +23,16 @@
             <p>No se encontraron películas que coincidan con la búsqueda.</p>
         {% endfor %}
     </ul>
+
+    
+    <!-- logout -->
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <!-- home -->
+    <a href="{% url 'home' %}">Volver al inicio</a>
+    
 </body>
 </html>

@@ -15,5 +15,20 @@
                 <strong>Director:</strong> {{ pelicula.director }}<br>
             </li>
         {% endfor %}
+
+
+    <br><br>
+    <!-- logout -->
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button  id="logout" type="submit">Cerrar sesión</button>
+    </form>
+
+    <!-- search -->
+    <form method="get" action="{% url 'buscar' %}">
+        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar películas por título o director">
+        <button type="submit">Buscar</button>
+    </form>
+
 </body>
 </html>

@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.db.models import Q
 from .models import Pelicula
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+@login_required(login_url='/login')
 def home(request):
     peliculas = Pelicula.objects.all()
     return render(request, 'home.html', {'peliculas': peliculas})
@@ -34,6 +37,7 @@ def iniciar_sesion(request):
 
     return render(request, 'login.html', {'form': form})
 
+@login_required(login_url='/login')
 def buscar_pelicula(request):
     query = request.GET.get("q")
     
@@ -47,4 +51,7 @@ def buscar_pelicula(request):
         
     
     return render(request, 'search.html', {'peliculas': peliculas})
-    
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('home')
