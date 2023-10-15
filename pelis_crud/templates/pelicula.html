@@ -25,7 +25,7 @@
     <!-- leave a comment -->
     <form method="post" action="{% url 'comentar' pelicula.id %}">
         {% csrf_token %}
-        <input type="text" name="comentario" placeholder="Deja un comentario">
+        <textarea name="comentario" cols="30" rows="5" placeholder="Deja un comentario"></textarea>
         <button type="submit">Comentar</button>
 
     </form>
@@ -36,25 +36,26 @@
     <ul>
         {% for comentario in comentarios %}
             <li>
-                <strong>Usuario:</strong> {{ comentario.usuario }}<br>
-                <strong>Comentario:</strong> {{ comentario.texto }}<br>
+                {{ comentario.usuario }}:<br>
+                {{ comentario.texto }}<br>
+                {{ comentario.fecha }}<br>
                 {% if comentario.usuario == request.user.usuario %}
                     <form method="post" action="{% url 'eliminar_comentario' comentario.id %}">
                         {% csrf_token %}
-                        <button type="submit">Eliminar comentario</button>
+                        <button type="submit">Eliminar</button>
                     </form>
 
                     <br>
 
                     <form method="post" action="{% url 'editar_comentario' comentario.id %}">
                         {% csrf_token %}
-                        <button type="submit">Editar comentario</button>
+                        <button type="submit">Editar</button>
                     </form>
                 {% endif %}
                 
             </li>
         {% empty %}
-            <p>No hay comentarios para esta película.</p>
+            <p>Aún no hay comentarios para esta película.</p>
         {% endfor %}
 
         {% if comentario_editar %}

@@ -10,7 +10,8 @@ from .forms import ComentarioForm, PeliculaForm
 
 @login_required(login_url='/login')
 def home(request):
-    peliculas = Pelicula.objects.all()
+    #consultar las 8 primeras peliculas aleatorias
+    peliculas = Pelicula.objects.order_by('?')[:8]
     return render(request, 'home.html', {'peliculas': peliculas})
 
 def registrar(request):
@@ -81,6 +82,7 @@ def comentar(request, id):
     else:
         return redirect('pelicula', id=id)
     
+@login_required(login_url='/login')
 def eliminar_comentario(request, id):
     comentario = Comentario.objects.get(pk=id)
     
@@ -89,6 +91,7 @@ def eliminar_comentario(request, id):
         
     return redirect('pelicula', id=comentario.pelicula.id)
 
+@login_required(login_url='/login')
 def editar_comentario(request, id):
     comentario = get_object_or_404(Comentario, pk=id)
 
@@ -103,6 +106,7 @@ def editar_comentario(request, id):
 
     return render(request, 'partials/editar_comentario.html', {'form': form, 'comentario': comentario})
 
+@login_required(login_url='/login')
 def agregar_pelicula(request):
     
     if request.method == 'POST':
@@ -118,7 +122,7 @@ def agregar_pelicula(request):
 
     return render(request, 'agregar_pelicula.html', {'form': form})
     
-
+@login_required(login_url='/login')
 def eliminar_pelicula(request, id):
     
     pelicula = get_object_or_404(Pelicula, pk=id)
