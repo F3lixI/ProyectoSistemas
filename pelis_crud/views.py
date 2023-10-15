@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.db.models import Q
-from .models import Pelicula
+from .models import Pelicula, Comentario, Usuario
 from django.contrib.auth.decorators import login_required
+from .forms import ComentarioForm
 
-# Create your views here.
+
 
 @login_required(login_url='/login')
 def home(request):
@@ -17,8 +18,11 @@ def registrar(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  
-            return redirect('home')  
+            # Crea una instancia de Usuario relacionada con el nuevo usuario
+            usuario = Usuario(usuario=user)
+            usuario.save()
+            login(request, user)
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'registro.html', {'form': form})
@@ -55,3 +59,52 @@ def buscar_pelicula(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect('home')
+
+#vista indivual de pelicula
+@login_required(login_url='/login')
+def pelicula(request, id):
+    comentarios = Comentario.objects.filter(pelicula=id)
+
+    pelicula = Pelicula.objects.get(pk=id)
+    return render(request, 'pelicula.html', {'pelicula': pelicula, 'comentarios': comentarios})
+
+@login_required(login_url='/login')
+def comentar(request, id):
+    
+    if request.method == 'POST':
+        texto = request.POST.get('comentario')
+        if texto:
+            pelicula = Pelicula.objects.get(pk=id)
+            comentario = Comentario(usuario=request.user.usuario, pelicula=pelicula, texto=texto)
+            comentario.save()
+            return redirect('pelicula', id=id)
+    else:
+        return redirect('pelicula', id=id)
+    
+def eliminar_comentario(request, id):
+    comentario = Comentario.objects.get(pk=id)
+    
+    if request.user.usuario == comentario.usuario:
+        comentario.delete()
+        
+    return redirect('pelicula', id=comentario.pelicula.id)
+
+def editar_comentario(request, id):
+    comentario = get_object_or_404(Comentario, pk=id)
+
+
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('pelicula', id=comentario.pelicula.id)
+    else:
+        form = ComentarioForm(instance=comentario)
+
+    return render(request, 'partials/editar_comentario.html', {'form': form, 'comentario': comentario})
+
+#agregar pelicula
+#eliminar pelicula
+#editar pelicula
+
+#ver perfil de usuario

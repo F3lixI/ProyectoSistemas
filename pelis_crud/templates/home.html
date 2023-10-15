@@ -13,6 +13,7 @@
             <li>
                 <strong>Título:</strong> {{ pelicula.titulo }}<br>
                 <strong>Director:</strong> {{ pelicula.director }}<br>
+                <a href="{% url 'pelicula' pelicula.id %}">Ver detalles de la película</a>
             </li>
         {% endfor %}
 
@@ -29,6 +30,12 @@
         <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar películas por título o director">
         <button type="submit">Buscar</button>
     </form>
+
+    <!-- add -->
+    
+
+    
+    
 
 </body>
 </html>

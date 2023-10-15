@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelicula</title>
+</head>
+<body>
+    <h1>Película</h1>
+
+    <ul>
+
+        <li>
+            <strong>Título:</strong> {{ pelicula.titulo }}<br>
+            <strong>Director:</strong> {{ pelicula.director }}<br>
+        </li>
+
+    </ul>
+
+    <br><br>
+
+    <!-- home -->
+    <a href="{% url 'home' %}">Volver al inicio</a>
+
+    <!-- leave a comment -->
+    <form method="post" action="{% url 'comentar' pelicula.id %}">
+        {% csrf_token %}
+        <input type="text" name="comentario" placeholder="Deja un comentario">
+        <button type="submit">Comentar</button>
+
+    </form>
+
+    <!-- show comments -->
+    <h2>Comentarios</h2>
+
+    <ul>
+        {% for comentario in comentarios %}
+            <li>
+                <strong>Usuario:</strong> {{ comentario.usuario }}<br>
+                <strong>Comentario:</strong> {{ comentario.texto }}<br>
+                {% if comentario.usuario == request.user.usuario %}
+                    <form method="post" action="{% url 'eliminar_comentario' comentario.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Eliminar comentario</button>
+                    </form>
+
+                    <br>
+
+                    <form method="post" action="{% url 'editar_comentario' comentario.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Editar comentario</button>
+                    </form>
+                {% endif %}
+                
+            </li>
+        {% empty %}
+            <p>No hay comentarios para esta película.</p>
+        {% endfor %}
+
+        {% if comentario_editar %}
+            <h3>Editar Comentario</h3>
+            {% include 'editar_comentario.html' %}
+        {% endif %}
+    
+
+</body>
+</html>

@@ -6,8 +6,6 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.usuario.username
-    
-from django.db import models
 
 class Pelicula(models.Model):
     id = models.IntegerField(primary_key=True)

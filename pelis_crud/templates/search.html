@@ -18,6 +18,7 @@
             <li>
                 <strong>Título:</strong> {{ pelicula.titulo }}<br>
                 <strong>Director:</strong> {{ pelicula.director }}<br>
+                <a href="{% url 'pelicula' pelicula.id %}">Ver detalles de la película</a>
             </li>
         {% empty %}
             <p>No se encontraron películas que coincidan con la búsqueda.</p>
