@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.expressions import RawSQL
 
 class Usuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
