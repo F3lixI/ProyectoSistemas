@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.db.models import Q
 from .models import Pelicula, Comentario, Usuario
 from django.contrib.auth.decorators import login_required
-from .forms import ComentarioForm
+from .forms import ComentarioForm, PeliculaForm
 
 
 
@@ -103,8 +103,27 @@ def editar_comentario(request, id):
 
     return render(request, 'partials/editar_comentario.html', {'form': form, 'comentario': comentario})
 
-#agregar pelicula
-#eliminar pelicula
-#editar pelicula
+def agregar_pelicula(request):
+    
+    if request.method == 'POST':
+        # Procesar el formulario si se ha enviado
+        form = PeliculaForm(request.POST)  # Usar un formulario para agregar películas
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirigir a la página de inicio u otra vista
+    else:
+        # Mostrar el formulario en caso contrario
+        form = PeliculaForm()  # Usar un formulario para agregar películas
 
-#ver perfil de usuario
+    return render(request, 'agregar_pelicula.html', {'form': form})
+    
+
+def eliminar_pelicula(request, id):
+    
+    pelicula = get_object_or_404(Pelicula, pk=id)
+    
+    if request.user.usuario == pelicula.usuario:
+        pelicula.delete()
+        
+    return redirect('home')
+

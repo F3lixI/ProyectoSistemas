@@ -10,5 +10,7 @@ urlpatterns = [
     path('pelicula/<int:id>', views.pelicula, name='pelicula'),
     path('comentar/<int:id>', views.comentar, name='comentar'),
     path('eliminar/<int:id>', views.eliminar_comentario, name='eliminar_comentario'),
-    path('editar/<int:id>', views.editar_comentario, name='editar_comentario')
+    path('editar/<int:id>', views.editar_comentario, name='editar_comentario'),
+    path('agregar', views.agregar_pelicula, name='agregar_pelicula'),
+    path('eliminar_pelicula/<int:id>', views.eliminar_pelicula, name='eliminar_pelicula'),
 ]

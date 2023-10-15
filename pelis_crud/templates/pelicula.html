@@ -61,6 +61,14 @@
             <h3>Editar Comentario</h3>
             {% include 'editar_comentario.html' %}
         {% endif %}
+
+        <!-- eliminar pelicula -->
+        {% if pelicula.usuario == request.user.usuario %}
+            <form method="post" action="{% url 'eliminar_pelicula' pelicula.id %}">
+                {% csrf_token %}
+                <button type="submit">Eliminar película</button>
+            </form>
+        {% endif %}
     
 
 </body>
