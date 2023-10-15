@@ -109,6 +109,7 @@ def agregar_pelicula(request):
         # Procesar el formulario si se ha enviado
         form = PeliculaForm(request.POST)  # Usar un formulario para agregar películas
         if form.is_valid():
+            form.instance.usuario = request.user.usuario
             form.save()
             return redirect('home')  # Redirigir a la página de inicio u otra vista
     else:
