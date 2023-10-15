@@ -13,4 +13,5 @@ urlpatterns = [
     path('editar/<int:id>', views.editar_comentario, name='editar_comentario'),
     path('agregar', views.agregar_pelicula, name='agregar_pelicula'),
     path('eliminar_pelicula/<int:id>', views.eliminar_pelicula, name='eliminar_pelicula'),
+    path('perfil', views.ver_perfil, name='ver_perfil'),
 ]

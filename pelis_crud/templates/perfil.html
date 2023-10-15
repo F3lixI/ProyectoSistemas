@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+</head>
+<body>
+    <!-- See comments and movies by user -->
+    <h1>Perfil</h1>
+
+    <h2>Películas</h2>
+
+    <ul>
+
+        {% for pelicula in peliculas %}
+
+            <li>
+
+                <strong>Título:</strong> {{ pelicula.titulo }}<br>
+
+                <strong>Director:</strong> {{ pelicula.director }}<br>
+
+                <a href="{% url 'pelicula' pelicula.id %}">Ver detalles de la película</a>
+
+            </li>
+
+        {% empty %}
+
+            <p>Aún no has agregado ninguna película.</p>
+
+        {% endfor %}
+
+    </ul>
+
+    <br><br>
+
+    <h2>Comentarios</h2>
+
+    <ul>
+
+        {% for comentario in comentarios %}
+
+            <li>
+
+                {{ comentario.pelicula }}:<br>
+
+                {{ comentario.texto }}<br>
+
+                {{ comentario.fecha }}<br>
+
+                {% if comentario.usuario == request.user.usuario %}
+
+                    <form method="post" action="{% url 'eliminar_comentario' comentario.id %}">
+
+                        {% csrf_token %}
+
+                        <button type="submit">Eliminar</button>
+
+                    </form>
+
+                    <br>
+
+                    <form method="post" action="{% url 'editar_comentario' comentario.id %}">
+
+                        {% csrf_token %}
+
+                        <button type="submit">Editar</button>
+
+                    </form>
+
+                {% endif %}
+                
+            </li>
+
+        {% empty %}
+
+            <p>Aún no has comentado ninguna película.</p>
+
+        {% endfor %}    
+
+    </ul>
+
+    <br><br>
+
+    <!-- home -->
+    <a href="{% url 'home' %}">Volver al inicio</a>
+
+</body>
+</html>

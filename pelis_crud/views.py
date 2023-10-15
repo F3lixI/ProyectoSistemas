@@ -132,3 +132,9 @@ def eliminar_pelicula(request, id):
         
     return redirect('home')
 
+def ver_perfil(request):
+    usuario = request.user.usuario
+    peliculas = Pelicula.objects.filter(usuario=usuario)
+    comentarios = Comentario.objects.filter(usuario=usuario)
+    
+    return render(request, 'perfil.html', {'usuario': usuario, 'peliculas': peliculas, 'comentarios': comentarios})
