@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.expressions import RawSQL
 
 class Usuario(models.Model):
+    """Crea el modelo de usuario que se va a usar en la aplicacion, utilizando el sistema de usuarios de Django"""
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
